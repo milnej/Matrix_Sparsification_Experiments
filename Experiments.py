@@ -29,7 +29,11 @@ if __name__ == '__main__':
     trials = 20
     for p in range(test_points):
         error_p = np.random.uniform(error_scale[0], error_scale[-1])
+        
+        # samples a high amount of values s (based on the paper)
         sample_p = int(np.random.uniform(s_scale[-1], s_scale[0]))
+
+        # samples a low amount of values s (2n - n^2)
         # sample_p = int(np.random.uniform(2*n, n**2))
         num_success = 0
         print('New trial set:', p)
@@ -54,3 +58,4 @@ if __name__ == '__main__':
 
     
     plt.show()
+
