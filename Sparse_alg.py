@@ -65,14 +65,16 @@ if __name__ == "__main__":
     np.random.seed(1234)
 
     n = 10
-    max_val = 5
     error = .1
 
-    A = np.random.rand(n,n)
-    A *= max_val
+    num_large = int(n**2/10)
+    max_val = 5
+    A = np.random.rand(n,n) * max_val
+    for i in range(num_large):
+        A[np.random.randint(0,n-1)][np.random.randint(0,n-1)] = max_val * n
 
     print("A:", A)
-    A_til = sparsify(A, error, n)
+    A_til = sparsify(A, error, n, int(n**2), True)
     print("A_til:", A_til)
 
     print(np.linalg.norm(A-A_til,2)/np.linalg.norm(A,2))
