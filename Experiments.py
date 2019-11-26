@@ -1,32 +1,24 @@
 from matplotlib import pyplot as plt
+from matplotlib import image as img
 from Sparse_alg import *
+import sys
 
-if __name__ == '__main__':
+def rgb2gray(rgb):
+    return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
 
-    #np.random.seed(1234)
+def run_exp(A, test_points, trials, title):
 
-    # make matricies
-    n = 10
-
-    # high variance
-    num_large = int(n**2/10)
-    max_val = 5
-    A = np.random.rand(n,n) * max_val
-    for i in range(num_large):
-        A[np.random.randint(0,n-1)][np.random.randint(0,n-1)] = max_val * n
+    n = len(A)
 
     # plot s vs error
     error_scale = [i/10 for i in range(3,10)]
     s_scale = [s_calc(A,error_scale[i], n) for i in range(len(error_scale))]
 
+    print(stable_rank(A))
 
-    test_points = 50
     # each index - ((error, samples), success_rate)
     success_array = []
 
-   
-
-    trials = 20
     for p in range(test_points):
         error_p = np.random.uniform(error_scale[0], error_scale[-1])
         
@@ -47,7 +39,7 @@ if __name__ == '__main__':
     plt.plot(error_scale,s_scale)
     plt.xlabel('Error percent')
     plt.ylabel('Sample size')
-    plt.title('Medium Variance Matrix - Large Sample Size')
+    plt.title(title)
 
     success_threshold = .5
     for val in range(test_points):
@@ -58,4 +50,22 @@ if __name__ == '__main__':
 
     
     plt.show()
+
+if __name__ == '__main__':
+
+    img_name = sys.argv[1]
+
+    #np.random.seed(1234)
+
+    # init matricies from images
+    img_rgb = img.imread(img_name+'.png')
+    img_gray = rgb2gray(img_rgb)
+    # plt.imshow(beach_img, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
+    # plt.show()
+
+    test_points = 20
+    trials = 1
+
+    run_exp(img_gray, test_points, trials, 'Beach Image')
+    
 

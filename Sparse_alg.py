@@ -2,8 +2,7 @@ import numpy as np
 import math as m
 
 def s_calc(A, error, n):
-    fro = np.linalg.norm(A, 'fro')**2
-    sr = fro/np.linalg.norm(A, 2)**2
+    sr = stable_rank(A)
 
     return int((28*n*sr*np.log(m.sqrt(2)*n))/error**2)
 
@@ -13,6 +12,9 @@ def sparse_error_success(A, A_til, error):
     if comparison <= error:
         return 1
     return 0
+
+def stable_rank(A):
+    return np.linalg.norm(A, 'fro')**2 / np.linalg.norm(A, 2)**2
 
 def sparsify(A, error, n, s, trunc):
     A_hat = np.zeros((n,n))
