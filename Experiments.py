@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     img_name = sys.argv[1]
 
-    #np.random.seed(1234)
+    np.random.seed(1234)
 
     # init matricies from images
     img_rgb = img.imread(img_name+'.png')
@@ -88,6 +88,17 @@ if __name__ == '__main__':
 
     trials = 1
 
-    run_exp(img_gray, trials, 'Beach Image')
+    # run_exp(img_gray, trials, img_name+' Image')
+
+    # eigenvector computation
+    err = .1
+    n = 50
+    # A_til = sparsify(img_gray, err, n, s_calc(img_gray, err, n), True)
+    A_til = sparsify(img_gray, err, n, n**2, True)
+
+    eig_vec, eig_val = np.linalg.eig(img_gray)
+    eig_vec_A_til, eig_val_A_til = np.linalg.eig(A_til)
+
+    print((np.linalg.norm(eig_vec,2) - np.linalg.norm(eig_vec_A_til,2))/np.linalg.norm(eig_vec))
     
 

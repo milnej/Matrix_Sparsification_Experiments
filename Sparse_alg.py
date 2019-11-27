@@ -90,3 +90,5 @@ if __name__ == "__main__":
 
     print(np.linalg.norm(A-A_til,2)/np.linalg.norm(A,2))
     print(error)
+
+    
