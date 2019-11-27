@@ -16,10 +16,19 @@ def run_exp(A, trials, title):
 	# Compute the dimension of A
     n = len(A)
 
-    # plot s vs error
-    error_scale = [i/10 for i in range(3,10, 2)]
+    # 49 total points
+    error_scale = [i/10 for i in range(3,10)]
+    #289 total points
+    # error_scale = [i/20 for i in range(3,20)]
+
+    # true s plot
     s_scale = [s_calc(A,error_scale[i], n) for i in range(len(error_scale))]
-    samples = np.linspace(s_scale[-1], s_scale[0], len(error_scale))
+
+    # values within true s
+    # samples = np.linspace(s_scale[-1], s_scale[0], len(error_scale))
+
+    # more resonable s values
+    samples = np.linspace(n, n**2, len(error_scale))
 
     # DEBUG: print the stable rank of A
     print(stable_rank(A))
@@ -46,8 +55,9 @@ def run_exp(A, trials, title):
             
             p+=1
         
-    
-    plt.plot(error_scale,s_scale)
+    # true s plot
+    # plt.plot(error_scale,s_scale)
+
     plt.xlabel('Error percent')
     plt.ylabel('Sample size')
     plt.title(title)
@@ -73,7 +83,7 @@ if __name__ == '__main__':
     # init matricies from images
     img_rgb = img.imread(img_name+'.png')
     img_gray = rgb2gray(img_rgb)
-    # plt.imshow(beach_img, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
+    # plt.imshow(img_gray, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
     # plt.show()
 
     trials = 1
