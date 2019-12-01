@@ -90,6 +90,7 @@ def test_sparse_eig(A, error, n, true_s):
     # Print error
     print(np.linalg.norm(eig_vec - eig_vec_A_til,2)/np.linalg.norm(eig_vec))
 
+# shows density of matrices
 def display_matrix(A, title):
     plt.matshow(A, cmap=plt.cm.Greys)
     plt.title(title)
@@ -98,24 +99,36 @@ def display_matrix(A, title):
 if __name__ == '__main__':
 
     img_name = sys.argv[1]
+    trials = int(sys.argv[2])
+    scale = int(sys.argv[3])
+    plot_true_s = bool(sys.argv[4])
 
     np.random.seed(1234)
 
     # init matricies from images
-    img_rgb = img.imread(img_name+'.png')
+    img_rgb = img.imread(img_name)
     img_gray = rgb2gray(img_rgb)
     # plt.imshow(img_gray, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
     # plt.show()
 
     # guarantee testing
-    trials = 3
-    scale = 20
-    plot_true_s = False
+    # trials = 3
+    # scale = 20
+    # plot_true_s = True
     run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
+    # matrix display
+    display_matrix(img_gray, 'Original Image')
+    for e in err:
+        s = s_calc(img_gray, e, n)
+        display_matrix(sparsify(img_gray, e, n, s, True), 'Error: '+str(e))
+
+        # No truncation
+        # display_matrix(sparsify(img_gray, e, n, s, False))
+
     # Eigenvector computation test
-    err = [i/5 for i in range(1,5)]
-    n = 50
+    # err = [i/5 for i in range(1,5)]
+    # n = 50
 
     # print('Error:', err)
     # print('Eigenvector computation test with true s samples')
@@ -123,9 +136,3 @@ if __name__ == '__main__':
 
     # print('Eigenvector computation test with O(n^2) samples')
     # test_sparse_eig(img_gray, err, n, False)
-    
-    display_matrix(img_gray, 'Original Image')
-    for e in err:
-        s = s_calc(img_gray, e, n)
-        display_matrix(sparsify(img_gray, e, n, s, True), 'Error: '+str(e))
-    # display_matrix(sparsify(img_gray, err, n, n**2, False))
