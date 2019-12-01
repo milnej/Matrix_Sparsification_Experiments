@@ -89,18 +89,18 @@ if __name__ == '__main__':
     trials = 1
     scale = 10
     plot_true_s = False
-    # run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
+    run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
     # Eigenvector computation test
-    err = .1
-    n = 50
+    # err = .1
+    # n = 50
 
-    print('Error:', err)
-    print('Eigenvector computation test with true s samples')
-    test_sparse_eig(img_gray, err, n, True)
+    # print('Error:', err)
+    # print('Eigenvector computation test with true s samples')
+    # test_sparse_eig(img_gray, err, n, True)
 
-    print('Eigenvector computation test with O(n^2) samples')
-    test_sparse_eig(img_gray, err, n, False)
+    # print('Eigenvector computation test with O(n^2) samples')
+    # test_sparse_eig(img_gray, err, n, False)
     
     
 	
