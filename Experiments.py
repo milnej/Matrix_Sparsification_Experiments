@@ -91,18 +91,17 @@ if __name__ == '__main__':
     plot_true_s = False
     # run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
-    # eigenvector testing
+    # Eigenvector computation test
     err = .1
     n = 50
-    # A_til = sparsify(img_gray, err, n, s_calc(img_gray, err, n), True)
-    A_til = sparsify(img_gray, err, n, n**2, True)
 
-    eig_vec, eig_val = np.linalg.eig(img_gray)
-    eig_vec_A_til, eig_val_A_til = np.linalg.eig(A_til)
+    print('Error:', err)
+    print('Eigenvector computation test with true s samples')
+    test_sparse_eig(img_gray, err, n, True)
 
-    print(eig_vec.shape)
-    print(eig_vec_A_til.shape)
-
-    print((np.linalg.norm(eig_vec,2) - np.linalg.norm(eig_vec_A_til,2))/np.linalg.norm(eig_vec))
+    print('Eigenvector computation test with O(n^2) samples')
+    test_sparse_eig(img_gray, err, n, False)
     
+    
+	
 
