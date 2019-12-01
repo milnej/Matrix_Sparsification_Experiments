@@ -11,15 +11,13 @@ def rgb2gray(rgb):
 # Function that tests different values of error and s (number of samples)
 # to create sparse matrix representations of A. The function then plots
 # the success rate of the sparsification algorithm as a density graph.
-def run_exp(A, trials, title):
+def run_exp(A, trials, title, scale, plot_true_s):
 
 	# Compute the dimension of A
     n = len(A)
 
-    # 49 total points
-    error_scale = [i/10 for i in range(3,10)]
-    #289 total points
-    # error_scale = [i/20 for i in range(3,20)]
+    # Number of points: (scale - 1)^2
+    error_scale = [i/scale for i in range(1,scale)]
 
     # true s plot
     s_scale = [s_calc(A,error_scale[i], n) for i in range(len(error_scale))]
@@ -28,7 +26,7 @@ def run_exp(A, trials, title):
     # samples = np.linspace(s_scale[-1], s_scale[0], len(error_scale))
 
     # more resonable s values
-    samples = np.linspace(n, n**2, len(error_scale))
+    samples = np.linspace(n, 10*n**2, len(error_scale))
 
     # DEBUG: print the stable rank of A
     print(stable_rank(A))
@@ -56,7 +54,8 @@ def run_exp(A, trials, title):
             p+=1
         
     # true s plot
-    # plt.plot(error_scale,s_scale)
+    if plot_true_s:
+        plt.plot(error_scale,s_scale)
 
     plt.xlabel('Error percent')
     plt.ylabel('Sample size')
@@ -86,11 +85,13 @@ if __name__ == '__main__':
     # plt.imshow(img_gray, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
     # plt.show()
 
+    # guarantee testing
     trials = 1
+    scale = 10
+    plot_true_s = False
+    # run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
-    # run_exp(img_gray, trials, img_name+' Image')
-
-    # eigenvector computation
+    # eigenvector testing
     err = .1
     n = 50
     # A_til = sparsify(img_gray, err, n, s_calc(img_gray, err, n), True)
@@ -98,6 +99,9 @@ if __name__ == '__main__':
 
     eig_vec, eig_val = np.linalg.eig(img_gray)
     eig_vec_A_til, eig_val_A_til = np.linalg.eig(A_til)
+
+    print(eig_vec.shape)
+    print(eig_vec_A_til.shape)
 
     print((np.linalg.norm(eig_vec,2) - np.linalg.norm(eig_vec_A_til,2))/np.linalg.norm(eig_vec))
     
