@@ -32,6 +32,8 @@ def sparsify(A, error, n, s, trunc):
             for j in range(n):
                 if A[i][j] >= abs(eps/(2*n)):
                     A_hat[i][j] = A[i][j]
+    else:
+        A_hat = A
     
     # Calculate Frobenius norm
     fro = np.linalg.norm(A_hat, 'fro')**2
@@ -69,24 +71,6 @@ def sparsify(A, error, n, s, trunc):
 
     # Return sparse matrix
     return A_til
-
-# Function that tests accuracy of eigenvector/eigenvalue calculation with sparse matrix
-def test_sparse_eig(A, error, n, true_s):
-    A_til = []
-    if (true_s):
-        # sparse matrix with s samples from paper
-        A_til = sparsify(A, error, n, s_calc(A, error, n), True)
-    else:
-        # sparse matrix with O(n^2) samples
-        A_til = sparsify(A, error, n, n**2, True)
-
-    # Calculate eigenvector and eigenvalue pair
-    eig_vec, eig_val = np.linalg.eig(A)
-    eig_vec_A_til, eig_val_A_til = np.linalg.eig(A_til)
-
-    # Print error
-    print(np.linalg.norm(eig_vec - eig_vec_A_til,2)/np.linalg.norm(eig_vec))
-
 if __name__ == "__main__":
 
     ## Unused test case for sparsify function

@@ -73,6 +73,28 @@ def run_exp(A, trials, title, scale, plot_true_s):
 
     plt.show()
 
+    # Function that tests accuracy of eigenvector/eigenvalue calculation with sparse matrix
+def test_sparse_eig(A, error, n, true_s):
+    A_til = []
+    if (true_s):
+        # sparse matrix with s samples from paper
+        A_til = sparsify(A, error, n, s_calc(A, error, n), True)
+    else:
+        # sparse matrix with O(n^2) samples
+        A_til = sparsify(A, error, n, n**2, True)
+
+    # Calculate eigenvector and eigenvalue pair
+    eig_vec, eig_val = np.linalg.eig(A)
+    eig_vec_A_til, eig_val_A_til = np.linalg.eig(A_til)
+
+    # Print error
+    print(np.linalg.norm(eig_vec - eig_vec_A_til,2)/np.linalg.norm(eig_vec))
+
+def display_matrix(A, title):
+    plt.matshow(A, cmap=plt.cm.Greys)
+    plt.title(title)
+    plt.show()
+
 if __name__ == '__main__':
 
     img_name = sys.argv[1]
@@ -92,16 +114,18 @@ if __name__ == '__main__':
     # run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
     # Eigenvector computation test
-    err = .1
+    err = [i/5 for i in range(1,5)]
     n = 50
 
-    print('Error:', err)
-    print('Eigenvector computation test with true s samples')
-    test_sparse_eig(img_gray, err, n, True)
+    # print('Error:', err)
+    # print('Eigenvector computation test with true s samples')
+    # test_sparse_eig(img_gray, err, n, True)
 
-    print('Eigenvector computation test with O(n^2) samples')
-    test_sparse_eig(img_gray, err, n, False)
+    # print('Eigenvector computation test with O(n^2) samples')
+    # test_sparse_eig(img_gray, err, n, False)
     
-    
-	
-
+    display_matrix(img_gray, 'Original Image')
+    for e in err:
+        s = s_calc(img_gray, e, n)
+        display_matrix(sparsify(img_gray, e, n, s, True), 'Error: '+str(e))
+    # display_matrix(sparsify(img_gray, err, n, n**2, False))
