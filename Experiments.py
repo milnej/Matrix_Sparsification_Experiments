@@ -26,7 +26,7 @@ def run_exp(A, trials, title, scale, plot_true_s):
     # samples = np.linspace(s_scale[-1], s_scale[0], len(error_scale))
 
     # more resonable s values
-    samples = np.linspace(n, 10*n**2, len(error_scale))
+    samples = np.linspace(n, 8*n**2, len(error_scale))
 
     # DEBUG: print the stable rank of A
     print(stable_rank(A))
@@ -109,8 +109,8 @@ if __name__ == '__main__':
 
     # guarantee testing
     trials = 1
-    scale = 10
-    plot_true_s = False
+    scale = 20
+    plot_true_s = True
     run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
     # Eigenvector computation test
