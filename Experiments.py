@@ -108,9 +108,9 @@ if __name__ == '__main__':
     # plt.show()
 
     # guarantee testing
-    trials = 1
+    trials = 3
     scale = 20
-    plot_true_s = True
+    plot_true_s = False
     run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
     # Eigenvector computation test
