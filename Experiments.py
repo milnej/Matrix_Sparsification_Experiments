@@ -111,7 +111,7 @@ if __name__ == '__main__':
     trials = 1
     scale = 10
     plot_true_s = False
-    # run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
+    run_exp(img_gray, trials, img_name+' Image', scale, plot_true_s)
 
     # Eigenvector computation test
     err = [i/5 for i in range(1,5)]
